@@ -1,0 +1,41 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000000;
+    text-align: center;
+}
+p {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000000;
+    text-align: left;       
+}
+
+/*Buttons*/
+.st-key-button button {
+    background-color: #6b8e23;
+}
+
+/*No account button*/
+.st-key-button_noacc button {
+    background-color: #6b8e23;
+}
+
+/*Buttons alignment*/
+div.stButton {
+    text-align: center;
+}
+
+.st-key-styledinput_username input {
+    border: 3px #000000;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.st-key-styledinput_pw input {
+    border: 3px #000000;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+}
+
+

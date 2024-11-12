@@ -11,7 +11,7 @@ def navigate_to(page_name):
     st.rerun()
 
 def home():
-    st.title("Home Page 124134")
+    st.title("Home Page")
     st.write("This is the Home Page. Proceed to the Test page when you're ready.")
-    if st.button("Go to Test"):
+    if st.button("Go to Test", key="button"):
         navigate_to("test")

@@ -14,6 +14,6 @@ def result():
         st.write("No scores available. Please complete the test first.")
     
     # Option to go back to the main or home page if needed
-    if st.button("Back to Home"):
+    if st.button("Back to Home", key="button"):
         st.session_state['page'] = 'home'
         st.rerun()
