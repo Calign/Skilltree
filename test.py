@@ -22,7 +22,7 @@ def test():
         )
 
     # Submit button
-    if st.button("Submit"):
+    if st.button("Submit",key="button"):
         subject_scores = {subject: 0 for subject in df['Subject'].unique()}
 
         # Calculate scores

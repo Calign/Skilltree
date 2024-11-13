@@ -14,11 +14,11 @@ def hash_password(password):
 
 def signup():
     st.title("Sign Up Page")
-    username = st.text_input("Choose a Username")
-    password = st.text_input("Choose a Password", type="password")
-    email = st.text_input("Email")
+    username = st.text_input("Choose a Username", key="styledinput_chooseusername")
+    password = st.text_input("Choose a Password", type="password", key="styledinput_choosepw")
+    email = st.text_input("Email", key="styledinput_email")
 
-    if st.button("Register"):
+    if st.button("Register", key="button"):
         if username and password and email:
             if username in df['username'].values or email in df['email'].values:
                 st.error("Username or Email already exists.")
@@ -36,6 +36,6 @@ def signup():
         else:
             st.error("Please fill in all fields.")
     
-    if st.button("I already have an account"):
+    if st.button("I already have an account", key="button_green"):
         st.session_state['page'] = 'login'
         st.rerun()  # Redirect to login page

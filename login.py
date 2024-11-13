@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 
+
 # Load user data
 try:
     df = pd.read_excel("user_accounts.xlsx")
@@ -25,16 +26,16 @@ def login():
     </style>
     """, unsafe_allow_html=True)
 
-    st.title('Login Page')
+    st.title("Login Page")
 
     if 'authenticated' in st.session_state and st.session_state['authenticated']:
         st.session_state['page'] = 'home'
         st.rerun()  # Go to home page if already authenticated
     else:
-        username_input = st.text_input('Username')
-        password_input = st.text_input('Password', type='password')
+        username_input = st.text_input('Username', key="styledinput_username")
+        password_input = st.text_input('Password', type='password', key="styledinput_pw")
 
-        if st.button('Login'):
+        if st.button('Login', key="button"):
             if username_input in df['username'].values:
                 user_data = df[df['username'] == username_input].iloc[0]
                 if user_data['password'] == password_input:
@@ -48,6 +49,8 @@ def login():
             else:
                 st.error('Username not found')
 
-    if st.button("I don't have an account"):
+    if st.button("I don't have an account", key="button_noacc"):
         st.session_state['page'] = 'signup'
         st.rerun()  # Redirect to signup page
+
+

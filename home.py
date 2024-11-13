@@ -13,5 +13,5 @@ def navigate_to(page_name):
 def home():
     st.title("Home Page")
     st.write("This is the Home Page. Proceed to the Test page when you're ready.")
-    if st.button("Go to Test"):
+    if st.button("Go to Test", key="button"):
         navigate_to("test")
