@@ -26,6 +26,7 @@ def login():
     </style>
     """, unsafe_allow_html=True)
 
+    st.header("SkillTree")
     st.title("Login")
 
     if 'authenticated' in st.session_state and st.session_state['authenticated']:
@@ -35,7 +36,7 @@ def login():
         username_input = st.text_input('Username', key="styledinput_username")
         password_input = st.text_input('Password', type='password', key="styledinput_pw")
 
-        if st.button('Login', key="button"):
+        if st.button('Login'):
             if username_input in df['username'].values:
                 user_data = df[df['username'] == username_input].iloc[0]
                 if user_data['password'] == password_input:
@@ -49,7 +50,7 @@ def login():
             else:
                 st.error('Username not found')
 
-    if st.button("I don't have an account", key="button_noacc"):
+    if st.button("I don't have an account"):
         st.session_state['page'] = 'signup'
         st.rerun()  # Redirect to signup page
 

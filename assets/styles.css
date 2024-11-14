@@ -1,4 +1,4 @@
-h1, h2, h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
     font-family: 'Courier New', Courier, monospace;
     color: #000000;
     text-align: center;
@@ -8,27 +8,23 @@ p {
     color: #000000;
     text-align: left;       
 }
-
-/*Buttons*/
-.st-key-button button {
-    background-color: #6b8e23;
-}
-
-/*No account button*/
-.st-key-button_noacc button {
-    background-color: #6b8e23;
-}
-
-/*already have account button*/
-.st-key-button_green button {
-    background-color: #6b8e23;
-}
-
-/*Buttons alignment*/
 div.stButton {
     text-align: center;
 }
 
+h1#login {
+    font-family: 'Lucida Handwriting', cursive;
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-size: 80px;
+    color: #002a32;
+}
+
+h1#sign-up {
+    font-family: 'Lucida Handwriting', cursive;
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-size: 80px;
+    color: #002a32;
+}
 /*styled input for login*/
 .st-key-styledinput_username input {
     border: 3px #000000;
@@ -61,6 +57,46 @@ div.stButton {
     background-color: rgb(255, 255, 255);
     color: #000000;
     font-family: 'Courier New', Courier, monospace;
+}
+
+h1#welcome-to-skilltree {
+    font-family: 'Lucida Handwriting', cursive;
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-size: 80px;
+    color: #002a32;
+}
+
+/*skill tree description*/
+.home-paragraph {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000000;
+    font-size: 20px;
+    text-align:justify;
+    font-style: italic;
+    font-weight: bold;
+}
+
+/*skilltree*/
+h2#skilltree {
+    text-align: left;
+    color: #074a1f;
+    font-family: Garamond, serif;
+}
+
+.stButton > button {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.stButton> button:hover {
+    background: linear-gradient(135deg, #0c635b, #003715);
+    transform: scale(1.05);
 }
 
 
