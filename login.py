@@ -26,7 +26,7 @@ def login():
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("Login Page")
+    st.title("Login")
 
     if 'authenticated' in st.session_state and st.session_state['authenticated']:
         st.session_state['page'] = 'home'

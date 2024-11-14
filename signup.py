@@ -13,7 +13,7 @@ def hash_password(password):
     return password
 
 def signup():
-    st.title("Sign Up Page")
+    st.title("Sign Up")
     username = st.text_input("Choose a Username", key="styledinput_chooseusername")
     password = st.text_input("Choose a Password", type="password", key="styledinput_choosepw")
     email = st.text_input("Email", key="styledinput_email")
