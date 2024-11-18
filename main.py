@@ -17,7 +17,7 @@ load_css(css_path)
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background: linear-gradient(#e3eed4, #aec3b0, #6b9071, #0f2a1d);
+background: linear-gradient(#e3eed4, #aec3b0, #6b9071);
 background-size: cover;
 }
 
