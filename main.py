@@ -17,7 +17,7 @@ load_css(css_path)
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background-image: url("https://i.pinimg.com/564x/43/6e/cf/436ecf5fd4d20e38df13e72370afdf53.jpg");
+background: linear-gradient(#e3eed4, #aec3b0, #6b9071);
 background-size: cover;
 }
 
