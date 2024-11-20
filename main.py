@@ -2,6 +2,7 @@ import streamlit as st
 from login import login
 from signup import signup
 from home import home  
+from contact import contact
 from test import test
 from result import result
 import pathlib
@@ -41,3 +42,5 @@ elif st.session_state['page'] == 'test':
     test()
 elif st.session_state['page'] == 'result':
     result()
+elif st.session_state['page'] == 'contact':
+    contact()

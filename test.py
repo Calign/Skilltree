@@ -1,31 +1,45 @@
 import pandas as pd
 import streamlit as st
 
-# Load the Excel file
+# Load the test data
 df = pd.read_excel("test_data.xlsx")
 
-# Dictionary to store user responses
+# Store user's responses
 user_answers = {}
 
 def test():
     st.title("Bachelor Degree Aptitude Test")
+    st.subheader("Instructions: Read each question carefully and select the option for the correct answer.")
+
+    # Display subjects and their scores
+    subjects = df['Subject'].unique()
     
-    for index, row in df.iterrows():
-        st.write(f"**{row['Question']}**")
-        
-        # Display options for each question
-        user_answers[row['Subject_ID']] = st.radio(
-            f"Select your answer for {row['Subject']}:",
-            options=["A", "B", "C", "D"],
-            format_func=lambda x: row[x],
-            key=row['Subject_ID']
-        )
+    # Create a dictionary to store scores for each subject
+    subject_scores = {subject: 0 for subject in subjects}
+
+    # Display the subject once
+    for subject in subjects:
+        # Use markdown to align the subject name to the right
+        st.markdown(f"<h3 style='text-align: left;'>{subject}</h3>", unsafe_allow_html=True)
+
+        # Filter questions related to the subject
+        subject_questions = df[df['Subject'] == subject]
+
+        # Display questions for each subject
+        for idx, (index, row) in enumerate(subject_questions.iterrows(), start=1):
+            st.write(f"**{idx}. {row['Question']}**")
+            
+            # Display the options for each question with Subject_ID
+            user_answers[row['Subject_ID']] = st.radio(
+                f"Select your answer for {row['Subject_ID']}:",
+                options=["A", "B", "C", "D"],
+                format_func=lambda x: row[x],
+                key=row['Subject_ID']
+            )
 
     # Submit button
     if st.button("Submit"):
-        subject_scores = {subject: 0 for subject in df['Subject'].unique()}
-
-        # Calculate scores
+        # Calculate scores based on answers
         for index, row in df.iterrows():
             question_id = row["Subject_ID"]
             subject = row["Subject"]
@@ -35,7 +49,11 @@ def test():
             if user_answers.get(question_id) == correct_answer:
                 subject_scores[subject] += score_value
 
-        # Store subject_scores in session state to access it in the result page
+        # Ensure total score doesn't exceed 25 points for each subject
+        for subject in subject_scores:
+            subject_scores[subject] = min(subject_scores[subject], 25)
+
+        # Store the user scores in session state
         st.session_state['subject_scores'] = subject_scores
         st.session_state['page'] = 'result'
         st.rerun()
