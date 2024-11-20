@@ -52,6 +52,8 @@ def home():
             st.rerun()  # Rerun to go to the 'login' page
 
     # Main Content
+    st.markdown("<hr style='border: 1px solid black;'>", unsafe_allow_html=True)
+
     st.markdown(
         """
         <div>

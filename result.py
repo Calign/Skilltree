@@ -12,6 +12,20 @@ scaler = MinMaxScaler()
 df[['English', 'Math', 'History', 'Science', 'Filipino']] = scaler.fit_transform(df[['English', 'Math', 'History', 'Science', 'Filipino']])
 
 def result():
+    page_bg_img = """
+    <style>
+    [data-testid="stAppViewContainer"] {
+    background: #ffffff;
+    background-size: cover;
+    }
+
+    [data-testid="stHeader"] {
+    background-color: rgba(0, 0, 0, 0)
+    }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
     st.title("Test Results")
     
     # Retrieve scores from session state (user's scores)

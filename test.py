@@ -8,6 +8,20 @@ df = pd.read_excel("test_data.xlsx")
 user_answers = {}
 
 def test():
+    page_bg_img = """
+    <style>
+    [data-testid="stAppViewContainer"] {
+    background: url(https://img.freepik.com/premium-photo/abstract-white-bluish-background_921860-18613.jpg);
+    background-size: cover;
+    }
+
+    [data-testid="stHeader"] {
+    background-color: rgba(0, 0, 0, 0)
+    }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
     st.title("Bachelor Degree Aptitude Test")
     st.subheader("Instructions: Read each question carefully and select the option for the correct answer.")
 

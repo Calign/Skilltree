@@ -50,6 +50,8 @@ def contact():
         if st.button("Logout", key="logout_button"):
             st.session_state['page'] = 'login'
             st.rerun()
+    st.markdown("<hr style='border: 1px solid black;'>", unsafe_allow_html=True)
+
         
     st.title("Contact Us")
     st.write("If you have any inquiries, you may send us a message, and we will be in touch as soon as possible. Thank you!")
