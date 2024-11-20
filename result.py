@@ -15,7 +15,7 @@ def result():
     page_bg_img = """
     <style>
     [data-testid="stAppViewContainer"] {
-    background: #ffffff;
+    background: linear-gradient(to top right, #8EC6C5, #fcf5e7,#fcf5e7, #B5FFFC);
     background-size: cover;
     }
 
@@ -83,6 +83,6 @@ def result():
         st.write("No scores available. Please complete the test first.")
     
     # Option to go back to the main or home page if needed
-    if st.button("Back to Home"):
+    if st.button("Back to Home🏠"):
         st.session_state['page'] = 'home'
         st.rerun()

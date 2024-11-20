@@ -99,4 +99,29 @@ h2#skilltree {
     transform: scale(1.05);
 }
 
+/*contact us page*/
+
+h1#contact-us {
+    font-family: 'Lucida Handwriting', cursive;
+    font-size: 40px;
+    color: #002a32;
+}
+.contact-paragraph {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000000;
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+h3#contact-details {
+    font-family: 'Lucida Handwriting', cursive;
+    font-size: 20px;
+    color: #002a32;
+}
+
+img {
+    width: 550px;
+    height: 600px;
+    
+}
 

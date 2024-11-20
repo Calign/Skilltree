@@ -35,17 +35,17 @@ def home():
     col1, col2, col3 = st.columns([1, 1, 1])
 
     with col1:
-        if st.button("Home", key="home_button"):
+        if st.button("🏠Home", key="home_button"):
             st.session_state['page'] = 'home'
             st.rerun()
 
     with col2:
-        if st.button("Contact", key="contact_button"):
+        if st.button("📱Contact", key="contact_button"):
             st.session_state['page'] = 'contact'
             st.rerun()
 
     with col3:
-        if st.button("Logout", key="logout_button"):
+        if st.button("⭕Logout", key="logout_button"):
             # Reset session state on logout
             st.session_state['authenticated'] = False  # Clear authentication
             st.session_state['page'] = 'login'  # Set page to login
@@ -65,7 +65,7 @@ def home():
         unsafe_allow_html=True,
     )
 
-    go_to_test_button = st.button("Go to Test", key="go_to_test_button")
+    go_to_test_button = st.button("📝Go to Test", key="go_to_test_button")
 
     if go_to_test_button:
         st.session_state['page'] = 'test'

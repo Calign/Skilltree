@@ -11,7 +11,7 @@ def test():
     page_bg_img = """
     <style>
     [data-testid="stAppViewContainer"] {
-    background: url(https://img.freepik.com/premium-photo/abstract-white-bluish-background_921860-18613.jpg);
+    background: linear-gradient(to top right, #FFDEE9, #B5FFFC, #8EC6C5, #D1A7A3);
     background-size: cover;
     }
 
