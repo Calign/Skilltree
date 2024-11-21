@@ -37,24 +37,32 @@ def contact():
     col1, col2, col3 = st.columns([1, 1, 1])
 
     with col1:
-        if st.button("Home", key="home_button"):
+        if st.button("🏠Home", key="home_button"):
             st.session_state['page'] = 'home'
             st.rerun()
 
     with col2:
-        if st.button("Contact", key="contact_button"):
+        if st.button("📱Contact", key="contact_button"):
             st.session_state['page'] = 'contact'
             st.rerun()
 
     with col3:
-        if st.button("Logout", key="logout_button"):
+        if st.button("⭕Logout", key="logout_button"):
             st.session_state['page'] = 'login'
             st.rerun()
     st.markdown("<hr style='border: 1px solid black;'>", unsafe_allow_html=True)
 
         
     st.title("Contact Us")
-    st.write("If you have any inquiries, you may send us a message, and we will be in touch as soon as possible. Thank you!")
+    st.markdown(
+        """
+        <div>
+        <p class="contact-paragraph">If you have any inquiries, you may send us a message, and we will be in touch as soon as possible. Thank you!</p>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     st.subheader("Contact Details")
     
