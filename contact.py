@@ -1,56 +1,26 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 
 def contact():
-    button_style = """
-        <style>
-            /* Remove the default button background and borders */
-            .stButton > button {
-                background: none !important;
-                border: none !important;
-                color: #000000;  /* Text color */
-                font-size: 16px;  /* Font size */
-                font-family: 'Courier New', Courier, monospace;
-                cursor: pointer;
-                padding: 0;
-                text-align: left;
-                box-shadow: none !important;  /* Remove any shadow or outline */
-            }
 
-            /* Hover effect to change the text color */
-            .stButton > button:hover {
-                color: #38ef7d;  /* Color when hovered */
-                transform: scale(1.05);
-                background: none !important;  /* Ensure no background on hover */
-            }
-
-            /* Ensure there's no outline or border when focused */
-            .stButton > button:focus {
-                outline: none !important;
-                box-shadow: none !important;
-            }
-        </style>
-    """
-    st.markdown(button_style, unsafe_allow_html=True)
-
-    # Custom navigation buttons
-    col1, col2, col3 = st.columns([1, 1, 1])
-
-    with col1:
-        if st.button("🏠Home", key="home_button"):
-            st.session_state['page'] = 'home'
-            st.rerun()
-
-    with col2:
-        if st.button("📱Contact", key="contact_button"):
-            st.session_state['page'] = 'contact'
-            st.rerun()
-
-    with col3:
-        if st.button("⭕Logout", key="logout_button"):
-            st.session_state['page'] = 'login'
-            st.rerun()
-    st.markdown("<hr style='border: 1px solid black;'>", unsafe_allow_html=True)
+    nav_bar = option_menu(
+        None, ["Home", "Contact Us", "Logout"],
+        icons=["house", "envelope", "box-arrow-right"],
+        menu_icon="cast", default_index=0, orientation="horizontal"
+    )
+    
+    # Navigation Actions
+    if nav_bar == 'Home' and st.session_state.get('page') != 'home':
+        st.session_state["page"] = "home"
+        st.rerun()
+    elif nav_bar == 'Contact Us' and st.session_state.get('page') != 'contact':
+        st.session_state["page"] = "contact"
+        st.rerun()
+    elif nav_bar == 'Logout' and st.session_state.get('page') != 'login':
+        st.session_state["page"] = "login"
+        st.session_state.clear()
+        st.rerun()
 
         
     st.title("Contact Us")
