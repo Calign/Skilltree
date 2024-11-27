@@ -38,12 +38,41 @@ def contact():
     
     st.markdown(
         """
-        **Zandro Alvaro B. Caling**  
-        📧 czb0177@dlsud.edu.ph  
-
-        **John Gabriel A. Alcedo**  
-        📧 aja2107@dlsud.edu.ph
-        """
+        <div>
+        <p class="contact-paragraph">Zandro Alvaro B. Caling</p>  
+        </div>
+        """,
+        unsafe_allow_html=True
     )
     
+    st.markdown(
+        """
+        <div style="text-align: center;">
+        <a href="mailto:czb0177@dlsud.edu.ph" style="text-decoration: none; color:blue;">
+            📧 <span>czb0177@dlsud.edu.ph</span>
+        </a> 
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div>
+        <p class="contact-paragraph">John Gabriel A. Alcedo</p>  
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        """
+        <div style="text-align: center;">
+        <a href="mailto:czb0177@dlsud.edu.ph" style="text-decoration: none; color:blue;">
+            📧 <span>aja2107@dlsud.edu.ph</span>
+        </a> 
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     

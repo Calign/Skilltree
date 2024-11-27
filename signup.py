@@ -11,6 +11,20 @@ def hash_password(password):
     return password
 
 def signup():
+    page_bg_img = """
+        <style>
+        [data-testid="stAppViewContainer"] {
+        background-image: url("https:/img.freepik.com/premium-photo/red-hexagon-connects-majority-structure-others_72572-1792.jpg?w=1060");
+        background-size: cover;
+        
+    }
+
+        [data-testid="stHeader"] {
+        background-color: rgba(0, 0, 0, 0)
+    }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+    
     st.header("SkillTree")
     st.title("Sign Up")
     

@@ -18,7 +18,7 @@ load_css(css_path)
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background: linear-gradient(#e3eed4, #aec3b0, #6b9071);
+background-image: url("https://img.freepik.com/free-photo/3d-background-with-white-cubes_23-2150472987.jpg?t=st=1732636928~exp=1732640528~hmac=5d904953436e04c32e67a18758176db9970c5c39108a6a98dde8a2c58d710b40&w=1060");
 background-size: cover;
 }
 

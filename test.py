@@ -38,10 +38,35 @@ def cancel_test():
     st.rerun()
 
 def calculate_percentage(score, total):
+    page_bg_img = """
+        <style>
+        [data-testid="stAppViewContainer"] {
+        background: #FFFFF0;
+        background-size: cover;
+    }
+
+        [data-testid="stHeader"] {
+        background-color: rgba(0, 0, 0, 0)
+        }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
     """Calculate the percentage of the user's score."""
     return round((score / total) * 100, 2)
 
 def display_questions(subject):
+    page_bg_img = """
+        <style>
+        [data-testid="stAppViewContainer"] {
+        background: #FFFFF0;
+        background-size: cover;
+    }
+
+        [data-testid="stHeader"] {
+        background-color: rgba(0, 0, 0, 0)
+        }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
     """Display a randomized 10-question test for the selected subject."""
     st.subheader(f"{subject} Test")
 
@@ -90,6 +115,19 @@ def display_questions(subject):
         st.rerun()
 
 def display_selection():
+    page_bg_img = """
+        <style>
+        [data-testid="stAppViewContainer"] {
+        background: #FFFFF0;
+        background-size: cover;
+    }
+
+        [data-testid="stHeader"] {
+        background-color: rgba(0, 0, 0, 0)
+        }
+    """ 
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
     """Display the main test selection screen."""
     st.title("Bachelor Degree Aptitude Test")
     st.write("""<hr style='border: 1px solid black;' />
