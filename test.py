@@ -56,24 +56,6 @@ def calculate_percentage(score, total):
     return round((score / total) * 100, 2)
 
 def display_questions(subject):
-    def load_css(file_path):
-        with open(file_path) as f:
-            st.html(f"<style>{f.read()}</style>")
-
-    css_path = pathlib.Path("assets/test_styles.css")
-    load_css(css_path)
-    page_bg_img = """
-        <style>
-        [data-testid="stAppViewContainer"] {
-        background-image: url("https://img.freepik.com/free-photo/watercolor-pastel-background_23-2151891318.jpg?t=st=1732720114~exp=1732723714~hmac=dd63536e62e4e39ce4d968234b831c8dc3df7c76fbf33ecb0003856dedfcccfc&w=1380");
-        background-size: cover;
-    }
-
-        [data-testid="stHeader"] {
-        background-color: rgba(0, 0, 0, 0)
-        }
-    """ 
-    st.markdown(page_bg_img, unsafe_allow_html=True)
     """Display a randomized 10-question test for the selected subject."""
     st.subheader(f"{subject} Test")
 
@@ -106,11 +88,23 @@ def display_questions(subject):
         st.write(f"Q{i + 1}: {question['Question']}")
         st.write(f"Points: {question['Score']}")
 
+        # Display the answer options
+        options = {
+            "A": question["A"],
+            "B": question["B"],
+            "C": question["C"],
+            "D": question["D"],
+        }
+
+        # Use the keys of `options` for the radio choices
         answer = st.radio(
-            f"Choose the correct answer for Q{i + 1}",
-            options=["A", "B", "C", "D"],
+            f"Choose the correct answer for Q{i + 1}:",
+            options=list(options.keys()),
+            format_func=lambda x: f"{x}: {options[x]}",  # Display choices with their descriptions
             key=f"{subject}_q{i}",
         )
+
+        # Check if the selected answer matches the correct one
         if answer == question["Answer"]:
             user_score += question["Score"]
 
@@ -120,6 +114,7 @@ def display_questions(subject):
         st.session_state.current_subject = None
         st.session_state.current_questions = []
         st.rerun()
+
 
 def display_selection():
     page_bg_img = """

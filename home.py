@@ -18,9 +18,10 @@ def home():
         st.session_state["page"] = "contact"
         st.rerun()
     elif nav_bar == 'Logout' and st.session_state.get('page') != 'login':
+        st.session_state["authenticated"] = False
         st.session_state["page"] = "login"
-        st.session_state.clear()
         st.rerun()
+
     st.markdown("<h1>Welcome to SkillTree!</h1>", unsafe_allow_html=True)
     st.write("")
     st.write("")
