@@ -1,0 +1,17 @@
+div.stMainBlockContainer {
+    background-color: rgba(255, 255, 255); 
+    backdrop-filter: blur(50px); 
+    border-radius: 20px; 
+    padding: 30px; 
+    margin: auto; 
+    height: auto; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+
+}
+p {
+    text-indent: justify;
+}
+
