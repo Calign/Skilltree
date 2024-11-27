@@ -41,6 +41,7 @@ def home():
         st.session_state["page"] = "test"
         st.rerun()
     
+    
     st.write("""Why Take This Test?
              \n• Understand your academic strengths: Find out which subjects you're excelling in.
              \n• Get degree recommendations: Based on your scores, the app recommends top 5 bachelor degree programs that align with your academic profile.

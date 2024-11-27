@@ -145,6 +145,7 @@ def display_selection():
              \n• select any of the subjects to begin the test. All questions are randomize each take of test
              \n• If you cancel or skip the test, your progress will be reset, and you can start over.
              \n• Once you have answered all the questions for a subject, you can click on the Submit Test button to submit your answers.
+             \n• Passing Score is for all subject is 50%
              \n• If you fail two or more subjects, you will be prompted to retake the test.
              \n• Your score for that subject will be recorded and you may not return to retake that subject unless you choose to cancel the test or retake the take after failing the attempt
              \n Goodluck!

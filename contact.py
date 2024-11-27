@@ -18,6 +18,7 @@ def contact():
         st.session_state["page"] = "contact"
         st.rerun()
     elif nav_bar == 'Logout' and st.session_state.get('page') != 'login':
+        st.session_state["authenticated"] = False
         st.session_state["page"] = "login"
         st.rerun()
 
