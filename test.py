@@ -1,7 +1,5 @@
 import pandas as pd
-import random
 import streamlit as st
-import pathlib
 
 # Load the test data
 df = pd.read_excel("test_data.xlsx")  # Ensure this file exists with the specified columns
@@ -55,40 +53,49 @@ def calculate_percentage(score, total):
     """Calculate the percentage of the user's score."""
     return round((score / total) * 100, 2)
 
+def knapsack_dp(subject_data, max_points=10):
+    """Dynamic Programming (Knapsack Problem): Select questions optimally to sum up to max_points."""
+    n = len(subject_data)
+    dp = [[0] * (max_points + 1) for _ in range(n + 1)]  # DP table
+    
+    # Fill the DP table
+    for i in range(1, n + 1):
+        for w in range(1, max_points + 1):
+            if subject_data.iloc[i - 1]["Score"] <= w:
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - subject_data.iloc[i - 1]["Score"]] + 1)
+            else:
+                dp[i][w] = dp[i - 1][w]
+    
+    # Reconstruct the selected questions from the DP table
+    selected_questions = []
+    w = max_points
+    for i in range(n, 0, -1):
+        if dp[i][w] != dp[i - 1][w]:
+            selected_questions.append(subject_data.iloc[i - 1])
+            w -= subject_data.iloc[i - 1]["Score"]
+
+    return selected_questions
+
 def display_questions(subject):
-    """Display a randomized 10-question test for the selected subject."""
+    """Display a 10-question test for the selected subject using Dynamic Programming to optimize selection."""
     st.subheader(f"{subject} Test")
 
-    # Filter questions for the selected subject
-    subject_data = df[df["Subject"] == subject]
-    
-    # Separate questions by points
-    one_point_questions = subject_data[subject_data["Score"] == 1]
-    three_point_questions = subject_data[subject_data["Score"] == 3]
-    five_point_questions = subject_data[subject_data["Score"] == 5]
-    
-    # List to store selected questions
-    selected_questions = []
-    total_points = 0
+    # Only generate questions if not already stored
+    if not st.session_state.current_questions:
+        # Filter questions for the selected subject
+        subject_data = df[df["Subject"] == subject]
+        
+        # Apply Divide and Conquer or Dynamic Programming to select questions
+        selected_questions = knapsack_dp(subject_data)
+        
+        st.session_state.current_questions = selected_questions
 
-    # Keep selecting questions until the total points are exactly 10
-    while total_points != 10:
-        # Randomly pick questions from any category
-        question_pool = pd.concat([one_point_questions, three_point_questions, five_point_questions])
-        random_question = question_pool.sample(1).iloc[0]  # Randomly select a question
-
-        if total_points + random_question["Score"] <= 10:
-            selected_questions.append(random_question)
-            total_points += random_question["Score"]
-
-    st.session_state.current_questions = selected_questions
-
+    # Retrieve stored questions and display them
     user_score = 0
     for i, question in enumerate(st.session_state.current_questions):
         st.write(f"Q{i + 1}: {question['Question']}")
         st.write(f"Points: {question['Score']}")
 
-        # Display the answer options
         options = {
             "A": question["A"],
             "B": question["B"],
@@ -96,15 +103,13 @@ def display_questions(subject):
             "D": question["D"],
         }
 
-        # Use the keys of `options` for the radio choices
         answer = st.radio(
             f"Choose the correct answer for Q{i + 1}:",
             options=list(options.keys()),
-            format_func=lambda x: f"{x}: {options[x]}",  # Display choices with their descriptions
+            format_func=lambda x: f"{x}: {options[x]}",
             key=f"{subject}_q{i}",
         )
 
-        # Check if the selected answer matches the correct one
         if answer == question["Answer"]:
             user_score += question["Score"]
 
@@ -114,7 +119,6 @@ def display_questions(subject):
         st.session_state.current_subject = None
         st.session_state.current_questions = []
         st.rerun()
-
 
 def display_selection():
     page_bg_img = """
@@ -139,18 +143,18 @@ def display_selection():
              \n• History 
              \n• Science 
              \n• Filipino
-             \nEach subject consist of 10 iterm test overall wth variety of points based on the difficulty of questions.
+             \nEach subject consist of 10 item test overall with a variety of points based on the difficulty of questions.
              <hr style='border: 1px solid black;' />
              \nHow the Test Works:
-             \n• select any of the subjects to begin the test. All questions are randomize each take of test
+             \n• Select any of the subjects to begin the test. All questions are randomized for each test
              \n• If you cancel or skip the test, your progress will be reset, and you can start over.
              \n• Once you have answered all the questions for a subject, you can click on the Submit Test button to submit your answers.
-             \n• Passing Score is for all subject is 50%
+             \n• Passing Score for all subjects is 50%.
              \n• If you fail two or more subjects, you will be prompted to retake the test.
-             \n• Your score for that subject will be recorded and you may not return to retake that subject unless you choose to cancel the test or retake the take after failing the attempt
-             \n Goodluck!
+             \n• Your score for that subject will be recorded and you may not return to retake that subject unless you choose to cancel the test or retake the test after failing the attempt.
+             \n Good luck!
              <hr style='border: 1px solid black;' />
-             \n• All questions are in multiple choice test type and you will be presented with 4 options (A, B, C, D). Select the correct answer.
+             \n• All questions are in multiple choice test format. You will be presented with 4 options (A, B, C, D). Select the correct answer.
              \n Select a subject to take the test: 
 """, unsafe_allow_html=True)
 
@@ -217,9 +221,7 @@ def final_results():
 
     if len(failed_subjects) >= 2:
         st.error("You have failed the test")
-        st.write("""If you'd like to try again, click below to retake the test and show us how much you've improved!
-
-""", unsafe_allow_html=True)
+        st.write("""If you'd like to try again, click below to retake the test and show us how much you've improved!""", unsafe_allow_html=True)
         if st.button("Retake Test"):
             # Reset all session state variables
             st.session_state.scores = {key: None for key in st.session_state.scores.keys()}
@@ -235,9 +237,8 @@ def final_results():
             st.session_state.current_questions = []
             st.session_state['page'] = 'home'
             st.rerun()
-        st.write("""Don't worry! Everyone faces challenges, and failure is just part of the learning process. Use this as an opportunity to focus on areas that need improvement
-""", unsafe_allow_html=True)
-    
+        st.write("""Don't worry! Everyone faces challenges, and failure is just part of the learning process. Use this as an opportunity to focus on areas that need improvement""", unsafe_allow_html=True)
+
         st.image('https://i.pinimg.com/originals/e7/fb/06/e7fb06e185abb65900e4344a3d715751.png', width=700)
     else:
         st.success("Congratulations! You passed the test.")
