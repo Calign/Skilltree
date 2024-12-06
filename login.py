@@ -10,9 +10,8 @@ def load_user_data():
         df.to_excel("user_accounts.xlsx", index=False)
     return df
 
-# Dummy password hashing function (replace with proper hashing in production)
 def hash_password(password):
-    return password  # Replace with actual password hashing in production
+    return password 
 
 def login():
     # Background styling
@@ -60,7 +59,7 @@ def login():
                     st.session_state["authenticated"] = True
                     st.session_state["username"] = username_input
                     st.session_state["page"] = "home"
-                    st.rerun()  # Redirect to home page
+                    st.rerun() 
                 else:
                     st.error("Incorrect password")
             else:

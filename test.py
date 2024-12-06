@@ -1,10 +1,8 @@
 import pandas as pd
 import streamlit as st
 
-# Load the test data
-df = pd.read_excel("test_data.xlsx")  # Ensure this file exists with the specified columns
+df = pd.read_excel("test_data.xlsx")  
 
-# Initialize session state for tracking scores and progress
 if "scores" not in st.session_state:
     st.session_state.scores = {
         "English": None,
@@ -27,7 +25,6 @@ if "cancel_test" not in st.session_state:
     st.session_state.cancel_test = False
 
 def cancel_test():
-    """Reset all session state variables to cancel the test."""
     st.session_state.scores = {key: None for key in st.session_state.scores.keys()}
     st.session_state.answered_subjects = set()
     st.session_state.current_subject = None
@@ -54,7 +51,7 @@ def calculate_percentage(score, total):
     return round((score / total) * 100, 2)
 
 def knapsack_dp(subject_data, max_points=10):
-    """Dynamic Programming (Knapsack Problem): Select questions optimally to sum up to max_points."""
+    """Select questions optimally to sum up to max_points."""
     n = len(subject_data)
     dp = [[0] * (max_points + 1) for _ in range(n + 1)]  # DP table
     
@@ -77,7 +74,6 @@ def knapsack_dp(subject_data, max_points=10):
     return selected_questions
 
 def display_questions(subject):
-    """Display a 10-question test for the selected subject using Dynamic Programming to optimize selection."""
     st.subheader(f"{subject} Test")
 
     # Only generate questions if not already stored
@@ -134,7 +130,6 @@ def display_selection():
     """ 
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    """Display the main test selection screen."""
     st.title("Bachelor Degree Aptitude Test")
     st.write("""<hr style='border: 1px solid black;' />
              \nInstructions: The test consists of five subjects:
@@ -161,7 +156,6 @@ def display_selection():
 
     col1, col2, col3, col4, col5 = st.columns(5)
 
-    # Buttons for each subject
     with col1:
         if st.button("English", disabled="English" in st.session_state.answered_subjects):
             st.session_state.current_subject = "English"
@@ -178,10 +172,10 @@ def display_selection():
         if st.button("Filipino", disabled="Filipino" in st.session_state.answered_subjects):
             st.session_state.current_subject = "Filipino"
 
-    # Add "Test run skip" button
+    # For beta testing purpose
     if st.button("Test run skip"):
         st.session_state.scores = {
-            "English": 6,   # Example predetermined scores
+            "English": 6,   
             "Math": 10,
             "History": 8,
             "Science": 9,
@@ -194,7 +188,7 @@ def display_selection():
         # Navigate to results
         st.session_state.current_subject = None
         st.session_state["page"] = "result"
-        st.rerun()  # Redirect to results
+        st.rerun()  
 
     # Cancel test button
     st.markdown("<hr style='border: 1px solid black;' />", unsafe_allow_html=True)
@@ -215,7 +209,6 @@ def display_selection():
         st.write("No scores recorded yet. Take a test to see your progress!")
 
 def final_results():
-    """Display final results and handle pass/fail logic."""
     st.subheader("Final Results")
     failed_subjects = [subject for subject, score in st.session_state.scores.items() if calculate_percentage(score, 10) < 50]
 
@@ -228,7 +221,7 @@ def final_results():
             st.session_state.answered_subjects = set()
             st.session_state.current_subject = None
             st.session_state.current_questions = []
-            st.rerun()  # Refresh the app to restart the test
+            st.rerun()  
         st.subheader("or")
         if st.button("Go back to home"):
             st.session_state.scores = {key: None for key in st.session_state.scores.keys()}
@@ -248,7 +241,6 @@ def final_results():
         st.write("Results saved to result.py")
 
 def test():
-    """Main function to manage the test workflow."""
     if all(subject in st.session_state.answered_subjects for subject in st.session_state.scores.keys()):
         final_results()
     elif st.session_state.current_subject:
