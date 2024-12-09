@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
 
 df = pd.read_excel("test_data.xlsx")  
 
@@ -53,7 +54,7 @@ def calculate_percentage(score, total):
 def knapsack_dp(subject_data, max_points=10):
     """Select questions optimally to sum up to max_points."""
     n = len(subject_data)
-    dp = [[0] * (max_points + 1) for _ in range(n + 1)]  # DP table
+    dp = [[0] * (max_points + 1) for _ in range(n + 1)] 
     
     # Fill the DP table
     for i in range(1, n + 1):
@@ -81,7 +82,6 @@ def display_questions(subject):
         # Filter questions for the selected subject
         subject_data = df[df["Subject"] == subject]
         
-        # Apply Divide and Conquer or Dynamic Programming to select questions
         selected_questions = knapsack_dp(subject_data)
         
         st.session_state.current_questions = selected_questions
@@ -144,7 +144,7 @@ def display_selection():
              \n• Select any of the subjects to begin the test. All questions are randomized for each test
              \n• If you cancel or skip the test, your progress will be reset, and you can start over.
              \n• Once you have answered all the questions for a subject, you can click on the Submit Test button to submit your answers.
-             \n• Passing Score for all subjects is 50%.
+             \n• Passing Score for all subjects is 60%.
              \n• If you fail two or more subjects, you will be prompted to retake the test.
              \n• Your score for that subject will be recorded and you may not return to retake that subject unless you choose to cancel the test or retake the test after failing the attempt.
              \n Good luck!
@@ -209,19 +209,96 @@ def display_selection():
         st.write("No scores recorded yet. Take a test to see your progress!")
 
 def final_results():
-    st.subheader("Final Results")
-    failed_subjects = [subject for subject, score in st.session_state.scores.items() if calculate_percentage(score, 10) < 50]
+    st.error("You have failed the test.")
+    failed_subjects = [subject for subject, score in st.session_state.scores.items() if calculate_percentage(score, 10) < 60]
 
+    # Show user's scores in text form and calculate the total score
+    st.subheader("Your Scores:")
+    st.markdown("<hr style='border: 1px solid black;' />", unsafe_allow_html=True)
+    total_score = 0  
+    num_correct = 0  
+    num_incorrect = 0
+    col1, col2 = st.columns(2)
+
+    with col1: 
+        for subject, score in st.session_state.scores.items():
+            if score is not None:
+                percentage = calculate_percentage(score, 10)
+                pass_fail_status = "Pass" if percentage >= 60 else "Fail"
+                st.write(f"{subject}: {score}/10 ({percentage:.1f}%) - {pass_fail_status}")
+                total_score += score 
+
+                # Count correct/incorrect answers
+                if percentage >= 60:
+                    num_correct += 1
+                else:
+                    num_incorrect += 1
+
+        # Calculate the percentage of total score
+        max_possible_score = 10 * len(st.session_state.scores)
+        total_percentage = (total_score / max_possible_score) * 100
+        st.write(f"**Total Score:** {total_score}/{max_possible_score} ({total_percentage:.1f}%)")
+
+    with col2:
+        correct_score = total_score
+        incorrect_score = max_possible_score - total_score
+
+        # Donut chart
+        fig, ax = plt.subplots(figsize=(6, 6))  
+        wedges, texts, autotexts = ax.pie(
+            [correct_score, incorrect_score],
+            labels=["Correct", "Incorrect"],
+            autopct='%1.1f%%',
+            startangle=140,
+            pctdistance=0.85,  
+            colors=['lightgreen', 'lightgrey'],
+            wedgeprops=dict(width=0.3, edgecolor='none') 
+        )
+
+        # Set the background of the plot to transparent
+        ax.set_facecolor('none')
+
+        # Draw a circle at the center to make it a donut chart (transparent center)
+        center_circle = plt.Circle((0, 0), 0.70, color='white', fc='white', edgecolor='white')
+        ax.add_artist(center_circle)
+
+        # Display the donut chart in Streamlit
+        st.pyplot(fig)
+
+    scores = list(st.session_state.scores.values())
+    subjects = list(st.session_state.scores.keys())
+    fig, ax = plt.subplots(figsize=(12, 6))
+    colors = ['skyblue', 'pink', 'red', 'green', 'lightgreen']
+
+    # Create bars and annotate the scores
+    bars = ax.bar(subjects, scores, color=colors[:len(subjects)])
+    ax.set_title("Score per Subject (Bar Graph)")
+    ax.set_xlabel("Subjects")
+    ax.set_ylabel("Scores")
+
+    # Add scores on top of each bar
+    for bar in bars:
+        yval = bar.get_height()
+        ax.annotate(f'{yval}', xy=(bar.get_x() + bar.get_width() / 2, yval), 
+                    xytext=(0, 3),  
+                    textcoords="offset points",
+                    ha='center', va='bottom')
+
+    # Display bar graph
+    st.pyplot(fig)
+
+    # Check if user passed or failed
     if len(failed_subjects) >= 2:
-        st.error("You have failed the test")
         st.write("""If you'd like to try again, click below to retake the test and show us how much you've improved!""", unsafe_allow_html=True)
+
         if st.button("Retake Test"):
             # Reset all session state variables
             st.session_state.scores = {key: None for key in st.session_state.scores.keys()}
             st.session_state.answered_subjects = set()
             st.session_state.current_subject = None
             st.session_state.current_questions = []
-            st.rerun()  
+            st.rerun()
+        
         st.subheader("or")
         if st.button("Go back to home"):
             st.session_state.scores = {key: None for key in st.session_state.scores.keys()}
@@ -230,8 +307,8 @@ def final_results():
             st.session_state.current_questions = []
             st.session_state['page'] = 'home'
             st.rerun()
-        st.write("""Don't worry! Everyone faces challenges, and failure is just part of the learning process. Use this as an opportunity to focus on areas that need improvement""", unsafe_allow_html=True)
-
+        
+        st.write("""Don't worry! Everyone faces challenges, and failure is just part of the learning process. Use this as an opportunity to focus on areas that need improvement.""", unsafe_allow_html=True)
         st.image('https://i.pinimg.com/originals/e7/fb/06/e7fb06e185abb65900e4344a3d715751.png', width=700)
     else:
         st.success("Congratulations! You passed the test.")

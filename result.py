@@ -23,29 +23,77 @@ def get_recommendations(scores, data, num_recommendations=5):
 def result():
     st.title("Bachelor Degree Aptitude Test Results")
 
-    # Make sure that scores exist in session state
+    # Ensure scores exist in session state
     if "scores" in st.session_state and any(st.session_state.scores.values()):
         scores = st.session_state.scores
-        percentages = {subject: calculate_percentage(score, 10) for subject, score in scores.items() if score is not None}
-
-        # Display the score of the user
+        total_possible_score = len(scores) * 10  # Each subject is out of 10 points
+        total_score = sum(score for score in scores.values() if score is not None)
+        overall_percentage = calculate_percentage(total_score, total_possible_score)
         st.subheader("Your Scores")
         st.markdown("<hr style='border: 1px solid black;' />", unsafe_allow_html=True)
-        for subject, score in scores.items():
-            if score is not None:
-                percentage = percentages[subject]
-                st.write(f"**{subject}:** {score}/10 ({percentage}%)")
+        col1, col2 = st.columns(2)
 
-        # Horizontal Bar Chart with subjects on x-axis and numerical scale on y-axis
-        fig, ax = plt.subplots(figsize=(8, 6))  # Set a larger size for clarity
-        ax.bar(list(scores.keys()), list(scores.values()), color=['skyblue', 'pink', 'red', 'green', 'lightgreen'])
+        with col1:
+            st.write(" ")
+            st.write(" ")
+            st.write(" ")
+            st.write(" ")
+            st.write(" ")
+            st.write(" ")
+            st.write(" ")
+            for subject, score in scores.items():
+                if score is not None:
+                    percentage = calculate_percentage(score, 10)
+                    st.write(f"**{subject}:** {score}/10 ({percentage}%)")
+
+            # Display overall score in text
+            st.write(f"**Total Score:** {total_score}/{total_possible_score} ({overall_percentage}%)")
+        with col2:
+        # Donut chart for overall percentage
+            fig, ax = plt.subplots(figsize=(3, 3))  # Adjusted size for a smaller chart
+            fig.patch.set_facecolor('none')  # Remove the white background
+
+            # Data for the chart
+            sizes = [overall_percentage, 100 - overall_percentage]
+            colors = ['#4CAF50', '#E0E0E0']
+            labels = ['Correct', 'Incorrect']
+
+            # Plot the donut chart
+            wedges, texts, autotexts = ax.pie(
+                sizes,
+                labels=labels,
+                autopct='%1.1f%%',
+                startangle=90,
+                colors=colors,
+                wedgeprops={'width': 0.3, 'edgecolor': 'white'},
+                textprops={'fontsize': 10}
+            )
+
+            # Make it a donut by adding a circle at the center
+            center_circle = plt.Circle((0, 0), 0.7, color='white', fc='white')
+            ax.add_artist(center_circle)
+
+            # Display the chart in Streamlit
+            st.pyplot(fig)
+
+
+        # Horizontal bar chart with subjects and scores
+        st.subheader("Your Scores by Subject")
+        fig, ax = plt.subplots(figsize=(10, 6))  # Adjust the figure size as needed
+        bars = ax.bar(list(scores.keys()), list(scores.values()), color=['skyblue', 'pink', 'red', 'green', 'lightgreen'])
         ax.set_title("Your Scores by Subject")
         ax.set_ylabel("Scores")
         ax.set_xlabel("Subjects")
         ax.set_ylim(0, 10)
+
+        # Add labels inside the bars
+        ax.bar_label(bars, fmt='%d', padding=3, color='black') 
+
+        # Display the chart in Streamlit
         st.pyplot(fig)
 
         st.markdown("<hr style='border: 1px solid black;' />", unsafe_allow_html=True)
+
 
         # Recommend degrees based on the user's scores
         st.subheader("Top 5 Recommended Bachelor Degree Programs")
@@ -55,8 +103,8 @@ def result():
             st.write(f"**Description:** {row['Description']}")
             st.write(f"**Career Paths:** {row['Career']}")
             st.write("---")
+        
         st.subheader("Congratulations on Passing the Test!")
-
         st.markdown("<hr style='border: 1px solid black;' />", unsafe_allow_html=True)
 
         # Button to return to home
