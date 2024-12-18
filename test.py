@@ -60,7 +60,8 @@ def knapsack_dp(subject_data, max_points=10):
     for i in range(1, n + 1):
         for w in range(1, max_points + 1):
             if subject_data.iloc[i - 1]["Score"] <= w:
-                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - subject_data.iloc[i - 1]["Score"]] + 1)
+                # Update this cell by considering the question score (not just +1)
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - subject_data.iloc[i - 1]["Score"]] + subject_data.iloc[i - 1]["Score"])
             else:
                 dp[i][w] = dp[i - 1][w]
     
